@@ -27,4 +27,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: cb
       run: |
-        sudo sh -c 'echo deb https://apt.buildkite.com/buildkite-agent stable main > /etc/apt/sources.list.d/buildkite-agent.list' && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198 && sudo apt-get update && sudo apt-get install -y buildkite-agent && sudo sed -i "s/xxx/91ab41a7ee19e71a206f64800a1037c11c23dfad88798d41aa/g" /etc/buildkite-agent/buildkite-agent.cfg && sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent && journalctl -f -u buildkite-agent
+        sudo sh -c 'echo deb https://apt.buildkite.com/buildkite-agent stable main > /etc/apt/sources.list.d/buildkite-agent.list' && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198 && sudo apt-get update && sudo apt-get install -y buildkite-agent && sudo sed -i "s/xxx/a6be57de9d4edcb9f66ecd0d5fa29334ef6d1d47b33665fb58/g" /etc/buildkite-agent/buildkite-agent.cfg && sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent && journalctl -f -u buildkite-agent
